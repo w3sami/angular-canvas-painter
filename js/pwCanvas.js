@@ -62,20 +62,26 @@ angular.module('pw.canvas-painter')
           });
         }
 
-        //create canvas and context
-        var canvas = document.createElement('canvas');
-        canvas.id = options.canvasId;
-        var canvasTmp = document.createElement('canvas');
-        canvasTmp.id = options.tmpCanvasId;
-        angular.element(canvasTmp).css({
-          position: 'absolute',
-          top: 0,
-          left: 0
-        });
-        elm.find('div').append(canvas);
-        elm.find('div').append(canvasTmp);
-        var ctx = canvas.getContext('2d');
-        var ctxTmp = canvasTmp.getContext('2d');
+				//create canvas and context
+				var canvas = document.createElement('canvas');
+				canvas.id = options.canvasId;
+				var canvasTmp = document.createElement('canvas');
+				canvasTmp.id = options.tmpCanvasId;
+                options.canvas = canvas;
+				options.canvasTmp = canvasTmp;
+
+				options.canvas = canvas;
+				options.canvasTmp = canvasTmp;
+
+				angular.element(canvasTmp).css({
+					position: 'absolute',
+					top: 0,
+					left: 0
+				});
+				elm.find('div').append(canvas);
+				elm.find('div').append(canvasTmp);
+				var ctx = canvas.getContext('2d');
+				var ctxTmp = canvasTmp.getContext('2d');
 
         //inti variables
         var point = {
@@ -121,19 +127,7 @@ angular.module('pw.canvas-painter')
         });
 
         var getOffset = function(elem) {
-          var offsetTop = 0;
-          var offsetLeft = 0;
-          do {
-            if (!isNaN(elem.offsetLeft)) {
-              offsetTop += elem.offsetTop;
-              offsetLeft += elem.offsetLeft;
-            }
-            elem = elem.offsetParent;
-          } while (elem);
-          return {
-            left: offsetLeft,
-            top: offsetTop
-          };
+          return $(elem).offset();
         };
 
         var setPointFromEvent = function(point, e) {
